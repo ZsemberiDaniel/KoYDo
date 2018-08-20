@@ -33,7 +33,7 @@ this library provide convenient methods to execute commands.
 * **Youtube url**: The url of the youtube video. Example: `https://www.youtube.com/watch?v=bhxhNIQBKJI`
 * **Youtube id**: The id of the youtube video. So everything after `watch?v=`. For the one above: `bhxhNIQBKJI`
 
-### Convenient methods
+### Convenience methods
 There are two methods that save to files. The first one is
 
 ```kotlin
@@ -56,7 +56,7 @@ These methods may throw a `YoutubeDLException` if the output of youtube-dl had a
 
 #### <a name="YoutubeDLSaveProperties"></a>YoutubeDLSaveProperties
 It has never been easier to define console parameters! This class does all the heavy lifting for you and contains the most common parameters for youtube-dl.
-Even if the stupid developer did not think that a parameter was necessary you can add them yourself next to the already existing ones.
+Even if the stupid developer did not think that a parameter was necessary you can add them yourself next to the already defined ones.
 
 There are two parameters that are mandatory: urlOrId (which video to download) and savePath (where to save the video).
 If you want to download the video only with these parameters you can do so... but there are so many other parameters to choose from, so why would you?
@@ -67,17 +67,15 @@ All of the parameters can be found in the javadoc but there are some things that
 There are three ways to define the format of the video and here they are in order: (higher it is more preferred it is by the code, so if you use option 1 and option 2 in the same property class option 1 will be chosen)
 
 1. Providing a `FormatProcessResult` from `YoutubeDL.getFormatOptions(..)`. (Refer to [Format options](#FormatOptions))
-With this you can provide one format that will surely be available. Note: if you want both a video and an audio layer then this is not the
-option for you.
+With this you can provide one format that will surely be available. Note: if you want both a video and an audio layer then this is not the recommended.
 2. Providing an `audioExtension` and setting `audioOnly` to `true`. If you have ffmpeg installed there should be no problem converting
-to any audio extension with this. The `audioExtension` will be ignored.
-3. Providing both a `videoExtension` and an `audioExtension`. If both are provided in the end they will be both downloaded separately and then
-combined to one file. (Unless specified otherwise by the user) Note that these extensions may not be available on youtube so you first need to check
-via `YoutubeDL.getFormatOptions(..)`.
+to any audio extension with this. The `videoExtension` will be ignored.
+3. Providing both a `videoExtension` and an `audioExtension`. If both are provided they will be both downloaded separately and then
+combined to one file. (Unless specified otherwise by the user) Note that these extensions may not be available on youtube so you first need to check via `YoutubeDL.getFormatOptions(..)`.
 
 ##### Name of output
 
-If the `outputName` is not set a default `"$urlOrId.$extension"` will be provided.
+If the `outputName` is not set a default `"$id.$extension"` will be provided.
 
 ##### Thumbnails
 
@@ -85,7 +83,7 @@ If both `writeThumbnailFile` and `embedThumbnail` are set to true then the separ
 
 ##### Subtitles
 
-If both `writeSubFile` or `writeAutoSubFile` and `embedSub` is set to true at the end the separate subtitle files will be deleted from the disk. The library warns you of this.
+If both `writeSubFile` or `writeAutoSubFile` and `embedSub` is set to true at the end the separate subtitle files **WILL BE** deleted from the disk. The library warns you of this.
 
 Also it might be possible that a language is not available for the current video. You can [check that](#subtitleOptions) with `YoutubeDL.getSubtitleOptions(..)`.
 
@@ -95,7 +93,7 @@ For adding metadata you need [AtomicParsley](#setup).
 
 ##### Custom parameters
 
-You can specify as many as you want but if it matches with one of the one you specified above then that will be preferred.
+You can specify as many as you want but if it matches with one of the one you specified above (with fields) then that will be preferred.
 
 For easier parameter addition you can use `YoutubeDLArgList` where you can [find](#args) all the parameters with descriptions.
 
@@ -121,7 +119,7 @@ An example usage of the `YoutubeDlProperties` instantiation:
     )
 ```
 
-Note that we before this we should check whether both the extensions and the subtitles are available. For example like this
+Note that before this we should check whether both the extensions and the subtitles are available. For example:
 
 ```kotlin
     ...
@@ -136,29 +134,25 @@ Note that we before this we should check whether both the extensions and the sub
 
 ### YoutubeDLCommand
 
-If you want full control over your java `Process` which executes the youtube-dl command in command line
-you can use the `YoutubeDLCommand`. It needs a youtube url or id and a save path.
+If you want full control over your java `Process` which executes the youtube-dl command in command line you can use the `YoutubeDLCommand`. It needs a youtube url or id and a save path.
 
-After that you can also add parameters to your commend. I recommend using `YoutubeDLArgList` so they are valid parameters for sure.
-If the parameter does not need an input then the second parameter should be null.
+After that you can also add parameters to your command. I recommend using `YoutubeDLArgList` so they are valid parameters for sure. If the parameter does not need an input then the second parameter should be null.
 
 If a parameter is added twice the second one will be preferred.
 
 After adding all your parameters you can execute your command via
 
 ```kotlin
-    executeCommand(commandPath, updateCallBack): Process
+    command.executeCommand(commandPath, updateCallBack)
 ```
 
-the commandPath is the directory where the youtube-dl.exe is.
-With updateCallbacks you can get the output lines of the youtube-dl command. If there was an error with the youtube-dl
-command then a `YoutubeDLException` will be thrown.
+the commandPath is the directory where the youtube-dl.exe is. With updateCallbacks you can get the output lines of the youtube-dl command. If there was an error with the youtube-dl command then a `YoutubeDLException` will be thrown.
 
 Note that this function returns a `Process` that has been started.
 
 ##### Converting from YoutubeDLSaveProperties
 
-You can convert from `YoutubeDLSaveProperties` to `YoutubeCommend` with the simple function of
+You can convert from `YoutubeDLSaveProperties` to `YoutubeCommend` with the simple function but it does not work the other way around
 
 ```kotlin
     properties.buildCommand()
@@ -184,8 +178,7 @@ If you want to get information about which formats are available for a given vid
     YoutubeDL.getFormatOptions(urlOrId): List<FormatProcessResult>()
 ```
 
-It returns a list of object which contain the id of the format (can be passed to parameter -format), the name of the format and if
-the format is not audio only then the resolution of the format.
+It returns a list of object which contain the id of the format (can be passed to parameter -format), the name of the format and if the format is not audio only then the resolution of the format.
 
 ### <a name="subtitleOptions"></a>Subtitle options
 
@@ -197,6 +190,4 @@ If you want to get information about what kind of languages are available for th
 
 ### <a name="args"></a>YoutubeDLArgList
 
-This class provides all the parameters you can use with youtube-dl. All of them also have a description
-"stolen" straight from the GitHub of youtube-dl. This way you don't have to swap between my project and the
-youtube-dl documentation.
+This class provides all the parameters you can use with youtube-dl. All of them also have a description "stolen" straight from the GitHub of youtube-dl. This way you don't have to swap between my project and the youtube-dl documentation.
