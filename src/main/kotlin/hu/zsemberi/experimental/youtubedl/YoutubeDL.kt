@@ -207,8 +207,8 @@ object YoutubeDL {
      *
      * @param urlOrId           The url of the video for example: https://www.youtube.com/watch?v=4bNZK-zgmUc
      *                          Or the id of the video for example: 4bNZK-zgmUc
-     * @param savePath          Where to save the file for example: C:/save/here
-     * @param saveExtension     In which extension should it save the file
+     * @param savePath          Where to save the file on your computer. for example: C:/save/here
+     * @param saveExtension     In which extension should it save the video file
      * @param customArgs        <i>Optional.</i> If you want to add custom args to the download it can be specified here
      * @param downloadCallback  <i>Optional.</i> This is called after the download starts and provides information about the download
      * @param otherOutputCallback <i>Optional.</i> This is called for every output line that is not connected to the download.
@@ -323,7 +323,7 @@ object YoutubeDL {
      * @param urlOrId           The url of the video for example: https://www.youtube.com/watch?v=4bNZK-zgmUc
      *                          Or the id of the video for example: 4bNZK-zgmUc
      */
-    fun getSubtitleOptions(urlOrId: String): Set<String> {
+    fun getSubtitleOptions(urlOrId: String): HashSet<String> {
         // list the subtitles with this command
 
         // if it has none available then it looks like
@@ -341,7 +341,7 @@ object YoutubeDL {
         // (..)
         val id = urlOrId.toId() ?: urlOrId
 
-        val output = mutableSetOf<String>()
+        val output = hashSetOf<String>()
         // Indicates whether we have entered the subtitle mode
         // If entered all the lines are parsed as subtitles
         var parseSubtitleMode = false
@@ -380,10 +380,6 @@ object YoutubeDL {
             throw YoutubeDLException("You have not set the path to the youtube-dl command! Use YoutubeDL.commandPath = \"path\"")
 
         command.executeCommand(commandPath!!) {
-            if (it.startsWith("ERROR")) {
-                throw YoutubeDLException("Error happened with youtube dl: $it")
-            }
-
             if (outputCallback != null) outputCallback(it)
         }.waitFor()
     }

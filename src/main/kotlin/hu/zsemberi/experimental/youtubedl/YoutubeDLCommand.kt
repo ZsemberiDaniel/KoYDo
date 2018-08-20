@@ -5,7 +5,9 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
 
-data class YoutubeDLCommand(val id: String, val savePath: String) {
+data class YoutubeDLCommand(val urlOrId: String, val savePath: String) {
+
+    val id: String = urlOrId.toId() ?: urlOrId
 
     /**
      * List of args for the youtube-dl command
@@ -55,7 +57,7 @@ data class YoutubeDLCommand(val id: String, val savePath: String) {
      * @param updateCallBack Calls this function for every line the command writes out.
      *                       If there was en error this will be ERROR: message
      *
-     * @throws YoutubeDLException If the given id in this command is blank
+     * @throws YoutubeDLException If the given id in this command is blank. Or if there was an error with the download
      */
     fun executeCommand(commandPath: String, updateCallBack: ((newLine: String) -> Unit)? = null): Process {
         if (id.isBlank()) {
@@ -99,8 +101,8 @@ data class YoutubeDLCommand(val id: String, val savePath: String) {
             do {
                 newLine = bufferedReader.readLine()
 
-                if (newLine != null && updateCallBack != null) {
-                    updateCallBack(newLine)
+                if (newLine != null) {
+                    throw YoutubeDLException("There was a problem with the download: $newLine")
                 }
             } while (process.isAlive || newLine != null)
         }

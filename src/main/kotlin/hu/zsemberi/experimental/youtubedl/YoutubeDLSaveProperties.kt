@@ -181,7 +181,7 @@ data class YoutubeDLSaveProperties(
 
             // inform user what is up dog
             if (embedSub && (writeSubFile || writeAutoSubFile))
-                logger.log(Level.INFO, "If embed sub is enabled then the separate subtitles files will be deleted! " +
+                logger.log(Level.WARNING, "If embed sub is enabled then the separate subtitles files will be deleted! " +
                         "If you want to keep the separate subtitles as well add keep-video (from arg list) to the customProperties. " +
                         "But be aware that if youtube dl needs to merge the video and audio file then both will be kept on disk " +
                         "that is why it's not kept on by default.")
