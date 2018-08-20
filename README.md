@@ -11,7 +11,7 @@ If you want to download mp3 as well get [ffmpeg](https://www.ffmpeg.org/download
 
 If you want to embed metadata (artist, title etc.) to your files you need [AtomicParsley](https://sourceforge.net/projects/atomicparsley/files/) in the same directory as well.
 
-![Full library setup](https://imgur.com/7xIPc9x)
+![Full library setup](https://i.imgur.com/7xIPc9x.png)
 
 *A full setup*
 
@@ -63,7 +63,7 @@ If you want to download the video only with these parameters you can do so... bu
 
 All of the parameters can be found in the javadoc but there are some things that need clarification:
 
-###### Format of video
+##### Format of video
 There are three ways to define the format of the video and here they are in order: (higher it is more preferred it is by the code, so if you use option 1 and option 2 in the same property class option 1 will be chosen)
 
 1. Providing a `FormatProcessResult` from `YoutubeDL.getFormatOptions(..)`. (Refer to [Format options](#FormatOptions))
@@ -75,25 +75,25 @@ to any audio extension with this. The `audioExtension` will be ignored.
 combined to one file. (Unless specified otherwise by the user) Note that these extensions may not be available on youtube so you first need to check
 via `YoutubeDL.getFormatOptions(..)`.
 
-###### Name of output
+##### Name of output
 
 If the `outputName` is not set a default `"$urlOrId.$extension"` will be provided.
 
-###### Thumbnails
+##### Thumbnails
 
 If both `writeThumbnailFile` and `embedThumbnail` are set to true then the separate thumbnail file will not be deleted from disk.
 
-###### Subtitles
+##### Subtitles
 
 If both `writeSubFile` or `writeAutoSubFile` and `embedSub` is set to true at the end the separate subtitle files will be deleted from the disk. The library warns you of this.
 
 Also it might be possible that a language is not available for the current video. You can [check that](#subtitleOptions) with `YoutubeDL.getSubtitleOptions(..)`.
 
-###### Metadata
+##### Metadata
 
 For adding metadata you need [AtomicParsley](#setup).
 
-###### Custom parameters
+##### Custom parameters
 
 You can specify as many as you want but if it matches with one of the one you specified above then that will be preferred.
 
@@ -101,7 +101,7 @@ For easier parameter addition you can use `YoutubeDLArgList` where you can [find
 
 If the parameter does not need an input then the second part of the pair should be null.
 
-###### Example
+##### Example
 
 An example usage of the `YoutubeDlProperties` instantiation:
 
@@ -156,7 +156,7 @@ command then a `YoutubeDLException` will be thrown.
 
 Note that this function returns a `Process` that has been started.
 
-###### Converting from YoutubeDLSaveProperties
+##### Converting from YoutubeDLSaveProperties
 
 You can convert from `YoutubeDLSaveProperties` to `YoutubeCommend` with the simple function of
 
@@ -164,7 +164,7 @@ You can convert from `YoutubeDLSaveProperties` to `YoutubeCommend` with the simp
     properties.buildCommand()
 ```
 
-###### Example of YoutubeDLCommand
+##### Example of YoutubeDLCommand
 
 ```kotlin
     YoutubeDLCommand("", "save\\path")
