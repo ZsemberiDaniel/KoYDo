@@ -1,4 +1,6 @@
 # KoYDo
+First af all I'm aware that this is the stupidest name you have ever read for a library but I have no idea what to call it. Calling it Kotlin Youtube DL is just boring. I'm open to ideas though.
+
 This is an implementation of youtube-dl command line application in Kotlin. It makes working with its's input and output much easier.
 
 
@@ -52,7 +54,7 @@ Refer to the [YoutubeDLSaveProperties](#YoutubeDLSaveProperties) section for fur
     YoutubeDL.saveToFile(properties, downloadCallback, otherOutputCallback, finishedCallback)
 ```
 
-These methods may throw a `YoutubeDLException` if the output of youtube-dl had an error as well.
+These methods may throw a `YoutubeDLException` if the output of youtube-dl had an error as well. They also return the absolute path of the saved file.
 
 #### <a name="YoutubeDLSaveProperties"></a>YoutubeDLSaveProperties
 It has never been easier to define console parameters! This class does all the heavy lifting for you and contains the most common parameters for youtube-dl.
@@ -75,7 +77,7 @@ combined to one file. (Unless specified otherwise by the user) Note that these e
 
 ##### Name of output
 
-If the `outputName` is not set a default `"$id.$extension"` will be provided.
+If the `outputName` is not set a default `"$id"` will be provided. Don't set the extension here, let the library handle that for you because it may disrupt the conversions.
 
 ##### Thumbnails
 
