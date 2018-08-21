@@ -1,5 +1,6 @@
 package hu.zsemberi.experimental.youtubedl
 
+import hu.zsemberi.experimental.youtubedl.toId
 import kotlinx.coroutines.experimental.launch
 import java.io.BufferedReader
 import java.io.File
@@ -101,8 +102,8 @@ data class YoutubeDLCommand(val urlOrId: String, val savePath: String) {
             do {
                 newLine = bufferedReader.readLine()
 
-                if (newLine != null) {
-                    throw YoutubeDLException("There was a problem with the download: $newLine")
+                if (newLine != null && updateCallBack != null) {
+                    updateCallBack(newLine)
                 }
             } while (process.isAlive || newLine != null)
         }
@@ -116,8 +117,8 @@ data class YoutubeDLCommand(val urlOrId: String, val savePath: String) {
             do {
                 newErrorLine = errorReader.readLine()
 
-                if (newErrorLine != null && updateCallBack != null) {
-                    updateCallBack(newErrorLine)
+                if (newErrorLine != null) {
+                    throw YoutubeDLException("There was a problem with the download: $newErrorLine")
                 }
                 // process could still spit out lines OR there are still lines to be read
             } while (process.isAlive || newErrorLine != null)

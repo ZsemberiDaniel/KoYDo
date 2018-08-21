@@ -50,7 +50,7 @@ data class YoutubeDLSaveProperties(
         val audioOnly: Boolean = false,
 
         /**
-         * Defines the name of the output file after save happens. It also needs an extension
+         * Defines the name of the output file after save happens
          */
         val outputName: String? = null,
 
@@ -146,9 +146,9 @@ data class YoutubeDLSaveProperties(
 
             // ** ** ** NAMING FILE ** ** **
             if (outputName != null) {
-                it.addArg(YoutubeDLArgList.OUTPUT, outputName)
+                it.addArg(YoutubeDLArgList.OUTPUT, "$outputName.%(ext)s")
             } else {
-                it.addArg(YoutubeDLArgList.OUTPUT, "$urlOrId.$extension")
+                it.addArg(YoutubeDLArgList.OUTPUT, "$urlOrId.%(ext)s")
             }
 
             // ** ** ** AUTHENTICATE ** ** **

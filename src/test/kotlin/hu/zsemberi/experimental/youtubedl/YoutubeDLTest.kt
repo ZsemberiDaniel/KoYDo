@@ -113,14 +113,6 @@ class YoutubeDLTest() {
                 writeAutoSubFile = true
         ).buildCommand().executeCommand(YoutubeDL.commandPath!!).waitFor()
 
-        YoutubeDLCommand("", "save\\path")
-                .addArg(YoutubeDLArgList.ADD_METADATA, null)
-                .addArg(YoutubeDLArgList.WRITE_SUB to null, YoutubeDLArgList.SUB_LANG to "en,es")
-                .addArg(YoutubeDLArgList.BUFFER_SIZE, "2048")
-                .executeCommand(YoutubeDL.commandPath!!) {
-                    println("YOUTUBE-DL OUTPUT: $it")
-                }.waitFor()
-
         assert(File("$savePath\\kHLHSlExFis.mp4").exists())
         assert(File("$savePath\\kHLHSlExFis.jpg").exists())
     }
